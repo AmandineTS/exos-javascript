@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Premier script JS</title>
+</head>
+
+<body>
+
+    <script>
+        /*************************************
+         * Test de majorité
+         * ***********************************/
+
+        //Déclaration des variables
+        var name = null;
+        
+        var valid = true;
+
+        console.log(typeof name);
+        //Validation de la saisie
+        //toujours valider des données de l'extérieur
+        while(!name || name == "null" || name == "undefined") {
+            name = prompt("Votre nom");
+        }
+
+        var age = prompt("Votre âge");
+
+        //Conversion de la saisie en nombre entier
+        age = parseInt(age);
+
+        if(!age || age == "null") {
+            alert("Vous devez saisir un âge");
+            valid = false;
+        }
+
+        if (valid) {
+            alert("dans un an vous aurez " + (age + 1) + "ans");
+            var message = "Bonjour " + name;
+
+            //Test de l'âge
+            if (age >= 18) {
+                message += " Vous êtes majeur";
+            } else {
+                message += " Vous êtes mineur";
+            }
+
+            //Affichage du résultat
+            alert(message);
+        }
+    </script>
+
+</body>
+
+</html>
