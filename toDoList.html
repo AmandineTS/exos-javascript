@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Todo list</title>
+
+    <style>
+        
+        form {
+            margin: 10px auto;
+        
+              }
+
+        label {
+            margin: 10px auto;
+                        
+        }
+
+        table {
+            border-collapse: collapse;
+            }
+
+            td, th {
+                border: 2px solid black;
+            }
+
+            caption {
+                font-weight: bold;
+                text-decoration: underline;
+            }
+    
+    
+    
+    
+    </style>
+
+</head>
+
+<body>
+    <!---Création du formulaire-->
+    <form method="post">
+        
+
+            <label>Tâches</label>
+            <input type="text" id="inputTaches" name="taches">
+
+            <label>Catégories</label>
+            <input type="text" id="inputCategories" name="categories">
+
+            <button type="submit">Valider</button>
+
+    
+    </form>
+
+
+    <!---Création du tableau-->
+    <table>
+        <caption>To Do List</caption><br>
+
+
+        <tr>
+
+            <th>Fait</th>
+            <th>Tâches</th>
+            <th>Catégories</th>
+
+        </tr>
+
+
+        <tr>
+            <td>
+                <input type="checkbox" name="fait"></td>
+            <td>prendre du pain</td>
+            <td>perso</td>
+            
+        </tr>
+    </table>
+
+
+
+
+    <script>
+
+        //Ciblage des éléments:
+        var formulaire = document.querySelector('form');
+        var tachesInput = document.querySelector('#inputTaches');
+        var categoriesInput = document.querySelector('#inputCategories');
+        var toDoList = document.querySelector('table');
+
+
+
+        //Création des tableaux:
+        var tachesArray = [];
+        var categoriesArray = [];
+
+
+        //Remplissage de la liste des taches et categories:
+        for (item of toDoList.children) {
+            //Peupler la liste
+            tachesArray.push(item.textContent);
+        }
+
+        for (item of toDoList.children){
+            categoriesArray.push(item.textContent);
+        }
+
+
+        formulaire.onsubmit = function (event) {
+            //Empêche l'envoi du formulaire à un serveur 
+            //et empêche le rechargement de la page
+            event.preventDefault();
+
+
+
+            //Récupération de la saisie:
+            newTaches = inputTaches.value;
+            newCategories = inputCategories.value;
+
+            let isNotTaches = newTaches.trim() != "";
+            let isNotCategories = newCategories.trim() != "";
+
+            //Ajout du nouvelle taches 
+            //Si la saisie n'est pas vide et si l'élément n'existe pas déjà:
+            if (isNotTaches) {
+                //Ajout du nouvel élément à tachesArray:
+                tachesArray.push(newTaches);
+
+
+                //Création d'une ligne (td)
+                let newItem = document.createElement("td");
+
+                //Définition du texte du th
+                newItem.textContent = newTaches;
+
+
+                //Attachement du nouveau élément au DOM
+                toDoList.appendChild(newItem);
+
+                //Réinitialisation de la saisie
+                inputTaches.value = "";
+
+
+                
+            }
+
+            if (isNotCategories) {
+                //Ajout du nouvel élément à categoriesArray:
+                categoriesArray.push(newCategories);
+
+                //Création d'une ligne (td)
+                let newItem = document.createElement("td");
+
+                //Définition du texte du th
+                newItem.textContent = newCategories;
+
+                //Attachement du nouveau élément au DOM
+                toDoList.appendChild(newItem);
+
+                //Réinitialisation de la saisie
+                inputCategories.values = "";
+
+            }
+
+        
+
+            //Création du bouton check 
+            let box = document.createElement("checkbox");
+
+            //ajout de la case à cocher aux nouveaux td
+            toDoList.appendChild(box);
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>

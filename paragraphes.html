@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Paragraphes dynamique</title>
+    <style>
+        h1 {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Titre 1</h1>
+    <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+        Nam repudiandae expedita assumenda natus aliquam obcaecati
+        illum a corporis amet eos, quaerat nihil.
+        Hic sapiente perspiciatis,iure dolore voluptatibus fuga qui!
+
+    </p>
+
+    <h1>Titre 2</h1>
+    <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+        Nam repudiandae expedita assumenda natus aliquam obcaecati
+        illum a corporis amet eos, quaerat nihil.
+        Hic sapiente perspiciatis,iure dolore voluptatibus fuga qui!
+
+    </p>
+
+    <h1>Titre 3</h1>
+    <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+        Nam repudiandae expedita assumenda natus aliquam obcaecati
+        illum a corporis amet eos, quaerat nihil.
+        Hic sapiente perspiciatis,iure dolore voluptatibus fuga qui!
+
+    </p>
+
+    <script>
+        //Définition des cibles
+        var titres = document.querySelectorAll("h1");
+        
+        //Code de l'événement 
+        function cliqueSurTitre(even) {
+            //fonction pour tous les titres et paragraphes 
+            let paragraphe = even.target.nextElementSibling;
+            if(paragraphe.style.display == "none"){
+                paragraphe.style.display = "block";
+                even.target.style.backgroundColor ="white";
+               
+            } else {
+                paragraphe.style.display = "none";
+                even.target.style.backgroudColor = "yellow";
+            }
+        }
+        //Affectation de l'événement à chaque titre
+        for(element of titres){
+            element.onclick = cliqueSurTitre;
+        }
+       
+    </script>
+
+</body>
+
+</html>

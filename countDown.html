@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Compte à rebours</title>
+</head>
+<body>
+    
+    <!--1: Définir mon ID-->
+    <div id="countdown"></div>
+
+    <script>
+        //2: Définir les variables du problème. Plus facile de les avoir au début.
+        var start = 10;
+        var end = 0;
+        var current = start;
+
+        //3: Cible du compte à rebours dans le DOM
+        var countdown = document.getElementById("countdown");
+
+        //4: Affichage sur notre page 
+        countdown.textContent = current;
+
+        //5: Utilisation de la fonction pour incrémenter "current"
+        var countInterval = setInterval(
+            function(){
+                //..Incrémentation négative (on part de 10 pour aller à 0)
+                current --;
+                countdown.textContent = current;
+                //..Pour que la fonction s'arrête à zéro et qu'il n'y est pas de.. 
+                //..chiffre négatif.
+                if(current ==0){
+                    clearInterval(countInterval)
+                }
+            },
+            //6: Temporisation de ma fonction
+            500
+        )
+
+
+
+
+
+
+
+    
+    </script>
+</body>
+</html>

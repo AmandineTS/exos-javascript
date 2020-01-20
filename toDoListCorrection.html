@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Liste des tâches</title>
+    <!--1: Copie du code bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<!--2: Création d'un conteneur-->
+
+<body class="container-fluid">
+    <!--3: Création de la ligne qui est justifiée et centrée avec une marge en haut-->
+    <div class="row justify-content-center mt-4">
+        <!--4: Création des colonnes qui seront d'une taille de 8 avec une couleur sur le titre-->
+        <div class="col-md-8 bg-success">
+            <h1>Liste des tâches</h1>
+
+            <!--5: Création de mon formulaire sur une ligne..-->
+            <!--..avec les éléments les uns à cotés des autres-->
+            <form class="mt-2 form-inline" method="post">
+                <!--6: Création de ma 1ère classe-->
+                <div class="form-group">
+                    <label>tâche</label>
+                    <input type="text" id="taskName" class="form-control mx-2">
+                </div>
+
+                <!--7: Création de ma 2ème classe..-->
+                <!--..avec liste déroulante de choix perso ou travail-->
+                <div class="form-group">
+                    <label>catégorie</label>
+                    <select id="category" class="form-control mx-2">
+                        <option value="">Choississez une catégorie</option>
+                        <option>Perso</option>
+                        <option>Travail</option>
+                    </select>
+                </div>
+
+                <!--8: Création du bouton "Ajouter" avec une couleur bleu(primary)-->
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+
+            </form>
+
+            <!--9: Création du tableau..-->
+            <!--..avec une bordure et un ligne sur 2 en gris-->
+            <table class="table table-bordered table-striped my-4">
+                <!--10: Création de mes en-têtes colonnes-->
+                <tr>
+                    <th>Fait</th>
+                    <th>Tâche</th>
+                    <th>Catégorie</th>
+                    <th>Action</th>
+
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+    <script>
+        //11: Structure des données(liste d'objet qui vont modéliser une tâches)..
+        //..enregistrement des infos qui nous intérresse
+        var taskList = [
+            { taskName: "Acheter du lait", category: "Perso", done: false, id: 1 },
+            { taskName: "Envoyer la facture", category: "Travail", done: true, id: 2 },
+        ];
+
+        //43: Récupération des données depuis le localStorage( mis en étape 45)
+        // taskList = JSON.parse(window.localStorage.getItem("todos")) || [];
+
+        /*****************************************************
+        *   DEFINITION DES CIBLES (variables) DU DOM
+        ******************************************************/
+        //12: Cibles du DOM
+        var tableElement = document.querySelector("table");
+        var formElement = document.querySelector("form");
+        var taskInput = document.getElementById("taskName");
+        var categoryInput = document.getElementById("category")
+
+
+        /*****************************************************
+        * GESTION DE L'AFFICHAGE DES TÂCHES DANS UN TABLEAU
+        *(tâches existante étape 11)
+        ******************************************************/
+
+        //13: Affichage d'une ligne de tâche
+        function renderTaskRow(task) {
+            //14: Création de la ligne (tr)
+            let tableRow = document.createElement("tr");
+
+            //15: Création de la ligne(cellule) "Fait"
+            let doneCell = document.createElement("td");
+
+            //16: Création de la case à cocher (checkbox)
+            let doneCheckbox = document.createElement("input");
+            //on lui définit des attributs
+            doneCheckbox.setAttribute("type", "checkbox");
+            //on lui définit une classe
+            doneCheckbox.setAttribute("class", "done-checkbox");
+            //si la tâche est réalisée alors je vais cocher la case
+            if (task.done) {
+                doneCheckbox.setAttribute("checked", "checked");
+            }
+            //17: Ajout de la case à cocher à la cellule
+            doneCell.appendChild(doneCheckbox);
+
+            //21: Création de la cellule pour le nom de la tâche
+            let taskNameCell = document.createElement("td");
+            taskNameCell.textContent = task.taskName;
+
+            //22: Création de la cellule pour la catégorie..
+            let categoryCell = document.createElement("td");
+            //..on ajout le texte de ce ("td")
+            categoryCell.textContent = task.category;
+
+            //24: Création de la cellule pour l'action
+            let actionCell = document.createElement("td");
+
+            //25: Création du bouton supprimer
+            let deleteButton = document.createElement("button");
+            deleteButton.setAttribute("type", "button");
+            deleteButton.setAttribute("class", "btn btn-danger delete");
+            deleteButton.setAttribute("data-id", task.id);
+            deleteButton.textContent = "Supprimer";
+
+            //26: Ajout du bouton à la cellule
+            actionCell.appendChild(deleteButton);
+
+
+            /*****************************************
+            *      AJOUT DES CELLULES
+            ******************************************/
+            //18: Ajout de la cellule "Fait" à la ligne
+            tableRow.appendChild(doneCell);
+            //23: Ajout des cellules de tâche et categorie 
+            tableRow.appendChild(taskNameCell);
+            tableRow.appendChild(categoryCell);
+            //27: Ajout de la cellule action
+            tableRow.appendChild(actionCell);
+
+            //19: Ajout de la ligne (tr) à la table HTML (dans le DOM)
+            tableElement.appendChild(tableRow);
+        }
+
+        /*****************************************
+        *     GESTION DE L'AJOUT DES TÂCHES
+        ******************************************/
+        //29: Création de ma fonction..
+        formElement.onsubmit = function (ev) {
+            //..Empêche l'envoi du formulaire
+            ev.preventDefault();
+
+            //30: Récupération de la saisie avec élimination des espaces
+            let taskNameText = taskInput.value.trim();
+            let categoryNameText = categoryInput.value.trim();
+
+            //31: Création d'une nouvelle tâche.. 
+            //..uniquement si la saisie n'est pas vide.(!=) différent
+            if (taskNameText != "" && categoryNameText != "") {
+                //32: Création d'un objet tâche
+                let task = {
+                    taskName: taskNameText,
+                    category: categoryNameText,
+                    done: false,
+                    //Création d'une nouvelle variable Date
+                    id: (new Date()).getTime()
+                }
+
+                //33: Ajout de la nouvelle tâche à la liste des tâches
+                taskList.push(task);
+
+                //34: Ajout de la nouvelle tâche au tableau html
+                renderTaskRow(task);
+
+                //44: Persistence des tâches
+                window.localStorage.setItem("todos", JSON.stringify(taskList));
+
+                //35: Réinitialisation du formulaire
+                taskInput.value = "";
+                categoryInput.selectedIndex = 0;
+
+                //36: Pour remettre le focus sur la tâche
+                taskInput.focus();
+
+            }
+
+            return false;
+
+        }
+
+        /**************************************
+        *     GESTION DE LA SUPPRESSION
+        **************************************/
+        //37: Fonction de la suppression  
+        tableElement.onclick = function (ev) {
+            let target = ev.target;
+            //38: Uniquement si on a cliqué sur le bouton supprimer
+            if (target.classList.contains("delete")) {
+
+                //40: Récupération de l'id de la tâche sur laquelle on a cliqué
+                let id = target.getAttribute("data-id");
+
+                //41: Recherhce de l'index du tableau correspondant à l'id
+                //..findIndex est une fonction qui admet en argument (item) et return..
+                //..il parcourt tout le tableau et retourne un booléan, si vrai la fonction s'arrete..
+                //..si faux, elle continue de parcourir le tableau
+                let index = taskList.findIndex(function (item) {
+                    return item.id == id;
+                });
+
+                //42: Suppression dans le tableau taskList
+                taskList.splice(index, 1);
+
+                //39: Suppression de la ligne dans le DOM... 
+                //...parentNode.parentNode(le parent du parent)
+                target.parentNode.parentNode.remove();
+
+            }
+        }
+
+        /**************************************
+        *    LANCEMENT DE L'APPLICATION
+        ***************************************/
+        //45: Récupération des données depuis le localStorage
+        taskList = JSON.parse(window.localStorage.getItem("todos")) || [];
+
+        /*
+        //46: Temporisation avec setTimeout(donne un délai)
+        setTimeout(
+            function(){
+            //28: Affichage de toutes les tâches
+             for(task of taskList){
+                renderTaskRow(task);
+        }
+            },
+            5000
+        );
+        */
+
+
+        console.log("affichage de la liste des tâches");
+
+        //47: Temporisation avec setInterval(en continue)..
+        //.. on ne peut pas utiliser les 2 méthodes en même temps
+        var currentIndex = 0;
+        var interval = setInterval(
+            function () {
+                //..si = à 0 ou sup à la longueur du tableau, il s'arrête
+                if (taskList.length == 0 || currentIndex > taskList.length - 1) {
+                    clearInterval(interval);
+                }
+                renderTaskRow(taskList[currentIndex]);
+                currentIndex++;
+            },
+            500
+        );
+
+        
+
+
+
+         //20: Pour vérifier que "Fait" fonctionne
+        //plus la peine d'utiliser si on fait la 28ème étape
+        // renderTaskRow(taskList[0]);
+        //renderTaskRow(taskList[1]);
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>

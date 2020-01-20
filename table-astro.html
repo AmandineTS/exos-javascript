@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Liste des étoiles</title>
+    <script src="js-data/astronomie.js"></script>
+    <script src="libraries/array-utils.js"></script>
+</head>
+
+<body>
+
+    <div id="cible"></div>
+
+    <div id="cible2"></div>
+
+    <script>
+     
+        document.getElementById("cible2").innerHTML = obtenirTableHtml(data);
+
+    </script>
+
+
+    <script>
+        //Cible un élément de la page
+        //dans lequel je vais écrire le code html
+        //de la table
+        var cible = document.getElementById("cible");
+
+        var codeHtml = "<table>";
+
+        //Affichage de la ligne d'en-tête
+        //si et seulement si le tableau data n'est pas vide
+        if (data.length > 0) { //si la longeur de data n'est pas vide
+            codeHtml += "<tr>";
+            for (let clef in data[0]) {
+                // affichage des nom des colonnes
+                codeHtml += "<th>" + clef + "</th>";
+            }
+            codeHtml += "</tr>";
+        }
+
+
+
+        //Boucle sur le tableau ordinal
+        //pour générer les lignes (<tr>)
+        //du tableau
+        for (let ligne of data) {
+            codeHtml += "<tr>";
+
+            //Boucle sur les propriétés d'une ligne (étoile)
+            //pour générer les colonnes (<td>)
+            for (let clef in ligne) {
+                codeHtml += "<td>" + ligne[clef] + "</td>"
+            }
+            codeHtml += "</tr>";
+        }
+
+        codeHtml += "</table>";
+
+        //affiche un tableau dans la console
+        console.table(data);
+        //affiche une liste dans la console
+        console.log(data);
+
+        //Ecriture du code html dans la cible
+        //pour l'afficher sur la page
+        cible.innerHTML = codeHtml;
+
+    </script>
+</body>
+
+</html>

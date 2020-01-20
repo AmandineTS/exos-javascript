@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>sélection du DOM</title>
+</head>
+
+<body>
+    <h1 id="titre">Les sélecteurs du DOM</h1>
+
+    <ul>
+        <li>les ID</li>
+        <li>Les balises</li>
+        <li>Les classes</li>
+    </ul>
+
+    <button id="bt1">Cliquez moi</button>
+
+    <button id="bt2">Cliquez moi</button>
+
+    <a href="http://developer.mozilla.org" id="lienMDN">Lien vers MDN</a>
+
+    <script>
+        //cible de l'événement
+        var bt1 = document.querySelector("#bt1");
+
+        //Code de l'événement
+        function clickHandler(even) {
+            if(even.target.textContent == "Je suis cliqué"){
+                even.target.textContent = "Cliquez moi";
+                //la couleur du bouton devient blanche sur cliquez moi
+                even.target.style.backgroundColor = "white";
+            } else {
+                even.target.textContent = "Je suis cliqué";
+                //la couleur du bouton devient rouge sur je suis cliqué
+                even.target.style.backgroundColor = "red";
+            }
+            
+        }
+
+        //liaison entre la cible et le code
+        bt1.onclick = clickHandler;
+
+        //cible de bt2
+        var bt2 = document.querySelector("#bt2");
+
+        bt2.onclick = clickHandler;
+        
+
+        //cible vers le lien 
+        var lien = document.getElementById("lienMDN");
+        lien.onclick  = function(){
+            //désactive le bt1 quand on clic sur le lien
+            bt1.setAttribute("disabled","disabled");
+            alert("vous avez cliqué sur le lien");
+            return false;
+        }
+
+        document.querySelector("body").oncontextmenu = function(){
+            return false;
+        }
+
+    </script>
+
+</body>
+
+</html>

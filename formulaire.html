@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Formulaire</title>
+
+    <style>
+        form div {
+            margin: 10px auto
+        }
+
+        label {
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        #overlay {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0, 0.5);
+        }
+
+        .hidden{
+            display: none;
+        }
+
+        #conteneurFormulaire{
+            position: relative;
+            margin: 50px auto;
+            width: 40%;
+            z-index: 2;
+            padding: 15px;
+            box-shadow: 5px 5px 3px black;
+            border-radius: 15px;
+            border: 1px solid white;
+            background-color: burlywood;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="btAfficheFormulaire">Afficher le formulaire</button>
+    
+    <div id="conteneurFormulaire" class="hidden">
+        <form method="post">
+
+            <div>
+                <label>Nom</label>
+                <input type="text" id="inputNom" name="nom">
+            </div>
+
+            <div>
+                <button type="submit">Valider</button>
+            </div>
+
+        </form>
+    </div>
+
+    <div id="overlay" class="hidden"></div>
+
+    <script>
+        //Ciblage du formulaire
+        var form = document.querySelector("form");
+
+        //Ciblage du champ nom
+        var inputNom = document.getElementById("inputNom");
+
+        //Ciblage de l'overlay
+        var overlay = document.getElementById("overlay");
+
+        //Ciblage de conteneur de formulaire
+        var conteneurForm = document.getElementById("conteneurFormulaire");
+
+        // Ciblage du bouton pour affichage du formulaire
+        var btAffiche = document.getElementById("btAfficheFormulaire");
+
+        //Affichage du formulaire au clic sur le bouton
+        btAffiche.onclick = function(even){
+            //Stop la propagation peut saisir dans notre formulaire sans revenir sur la 1ere page
+            even.stopPropagation();
+            overlay.classList.remove("hidden");
+            conteneurForm.classList.remove("hidden");
+        }
+
+        //Masquage du formulaire et de l'overlay au clic n'importe où
+        document.querySelector("body").onclick = function(){
+            overlay.classList.add("hidden");
+            conteneurForm.classList.add("hidden");
+        }
+
+        conteneurForm.onclick = function(even){
+            even.stopPropagation();
+        }
+
+        // Evénement submit
+        form.onsubmit = function () {
+            //On considère que la saisie est valide a priori
+            valid = true;
+
+            //Récupération de la saisie
+            nomSaisi = inputNom.value;
+
+            if (nomSaisi.trim() == "") {
+                valid = false;
+            } else if (nomSaisi.length < 3 || nomSaisi.length > 12) {
+                valid = false;
+            }
+
+            if (!valid) {
+                inputNom.style.border = "1px solid red";
+            } else {
+                inputNom.style.border = "1px solid black";
+            }
+
+            return false;//valid;
+        }
+    </script>
+
+</body>
+
+</html>

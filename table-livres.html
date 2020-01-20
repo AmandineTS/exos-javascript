@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Liste des livres</title>
+    <script src="js-data/livres.js"></script>
+    <script src="libraries/array-utils.js"></script>
+    <script src="libraries/string-utils.js"></script>
+</head>
+
+<body>
+
+    <div id="catalogue"></div>
+
+    <script>
+
+        document.getElementById("catalogue").innerHTML = obtenirTableHtml(books);
+
+        console.log(crypter("il etait une fois zebulon "));
+    </script>
+
+
+
+</body>
+
+</html>
