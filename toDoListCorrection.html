@@ -17,7 +17,7 @@
     <!--3: Création de la ligne qui est justifiée et centrée avec une marge en haut-->
     <div class="row justify-content-center mt-4">
         <!--4: Création des colonnes qui seront d'une taille de 8 avec une couleur sur le titre-->
-        <div class="col-md-8 bg-success">
+        <div class="col-md-8 bg">
             <h1>Liste des tâches</h1>
 
             <!--5: Création de mon formulaire sur une ligne..-->
@@ -41,13 +41,13 @@
                 </div>
 
                 <!--8: Création du bouton "Ajouter" avec une couleur bleu(primary)-->
-                <button type="submit" class="btn btn-primary">Ajouter</button>
+                <button type="submit" class="btn btn-success">Ajouter</button>
 
             </form>
 
             <!--9: Création du tableau..-->
             <!--..avec une bordure et un ligne sur 2 en gris-->
-            <table class="table table-bordered table-striped my-4">
+            <table class="table table-bordered table-striped my-4 table-warning">
                 <!--10: Création de mes en-têtes colonnes-->
                 <tr>
                     <th>Fait</th>
@@ -123,7 +123,7 @@
             //25: Création du bouton supprimer
             let deleteButton = document.createElement("button");
             deleteButton.setAttribute("type", "button");
-            deleteButton.setAttribute("class", "btn btn-danger delete");
+            deleteButton.setAttribute("class", "btn btn-info delete");
             deleteButton.setAttribute("data-id", task.id);
             deleteButton.textContent = "Supprimer";
 
